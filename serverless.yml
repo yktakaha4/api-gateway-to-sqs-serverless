@@ -8,12 +8,16 @@ provider:
   deploymentBucket: serverless-lambda-deploys
 
 functions:
-  send:
+  compute:
     handler: handler.mock
     events:
-      - http:
-          path: mock
-          method: post
+      - sqs: "${self:resources.Resources.SQSQueue.Properties.QueueName}"
+      # - sqs:
+      #     arn:
+      #       Fn::GetAtt:
+      #         - "${self:resources.Resources.SQSQueue.Properties.QueueName}"
+      #         - Arn
+      #     batchSize: 10
 
 resources:
   Resources:
